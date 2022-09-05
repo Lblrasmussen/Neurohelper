@@ -1,0 +1,327 @@
+title Neurohelper
+author Marrowine
+homepage www.puzzlescript.net
+
+========
+OBJECTS
+========
+
+Background
+#FFD5C8
+
+BrainA
+#f77577
+
+BrainB
+#b55088
+
+BrainD
+#FA7D55
+
+
+Wall1
+#FFB29A #FFD5C8
+10010
+10010
+01000
+01011
+10010
+
+Wall2
+black
+
+Wall3
+#f77577 #FFD5C8
+10010
+10010
+01000
+01011
+10010
+
+Wall4
+white #85FF94 #1DCA32
+.011.
+01111
+11111
+11112
+.112.
+
+TargetCarbon
+#484848
+.0.0.
+0...0
+.....
+0...0
+.0.0.
+
+TargetOxygen
+#f77577
+.0.0.
+0...0
+.....
+0...0
+.0.0.
+
+TargetNitrogen
+#92C7D4
+.0.0.
+0...0
+.....
+0...0
+.0.0.
+
+
+Player
+lightblue White #35BAE4 #278CAB
+2.0.2
+20002
+22222
+.223.
+.233.
+
+Carbon
+White #484848 #212521
+.011.
+01111
+11111
+11112
+.112.
+
+Oxygen
+white #f77577 #BD3C3C
+.011.
+01111
+11111
+11112
+.112.
+
+Nitrogen
+white #92C7D4 #51ABFB
+.011.
+01111
+11111
+11112
+.112.
+
+Acid
+white #85FF94 #1DCA32
+.011.
+01111
+11111
+11112
+.112.
+
+Base
+white #863CFF #6422CF
+.011.
+01111
+11111
+11112
+.112.
+
+LockedAtom
+White #FAF420 #CAC51C
+.011.
+01111
+11111
+11112
+.112.
+
+Spawner1
+#FF85BE
+00000
+00000
+00000
+00000
+00000
+
+Spawner2
+#FF85BE
+00000
+00000
+00000
+00000
+00000
+
+Spawner3
+#FF85BE
+00000
+00000
+00000
+00000
+00000
+
+=======
+LEGEND
+=======
+
+. = Background
+# = Wall1
+! = Wall2
+$ = Wall3
+' = Wall4
+P = Player
+C = Carbon
+O = Oxygen
+N = Nitrogen
+M = Acid
+B = Base
+@ = TargetCarbon
+¤ = TargetOxygen
+& = TargetNitrogen
+D = BrainD
+A = Carbon or Nitrogen or Oxygen
+S = Spawner1
+T = Spawner2
+Y = Spawner3
+L = LockedAtom
+Obstacle = player or a
+
+=======
+SOUNDS
+=======
+
+sfx0 94048705 (LockedAtom)
+sfx1 48421907 (Player move)
+sfx2 81745904 (Acid destroys)
+sfx3 84759109 (Acid moves)
+sfx4 64822502 (Base destroys)
+sfx5 4970707 (Base moves)
+
+================
+COLLISIONLAYERS
+================
+
+Background
+BrainA, BrainB, BrainD
+TargetCarbon, TargetOxygen, TargetNitrogen, Spawner1, Spawner2, Spawner3
+Player, Wall1, Wall2, Carbon, Oxygen, Nitrogen, Acid, Wall3, Base, Wall4, LockedAtom
+
+======
+RULES
+======
+[ > Player | Carbon ] -> [ > Player | > Carbon ] sfx1
+[ > Player | Oxygen ] -> [ > Player | > Oxygen ] sfx1
+[ > Player | Nitrogen ] -> [ > Player | > Nitrogen ] sfx1
+[ > Player | Acid ] -> [ > Player | > Acid ] sfx3
+
+[ Player | Base ] -> [ Player | < Base ] sfx5
+
+[ Spawner1 no obstacle ] -> [ Spawner1  Carbon ]
+[ Spawner2 no obstacle ] -> [ Spawner2  Oxygen ]
+[ Spawner3 no obstacle ] -> [ Spawner3  Nitrogen ]
+
+[> Player | > Carbon | TargetCarbon] -> [> Player|  | LockedAtom] sfx0
+[> Oxygen | TargetOxygen] -> [ | LockedAtom] sfx0
+[> Nitrogen | TargetNitrogen] -> [ | LockedAtom] sfx0
+
+[> Acid | a] -> [ | ] sfx2
+
+late [Carbon | Oxygen] -> [Acid | ]
+late [Nitrogen | Oxygen] -> [Base | ]
+late [Base | Wall4] -> [ | ] sfx4
+
+[Acid | base] -> [ | ] sfx2
+[> Acid | Wall3] -> [ | ] sfx2
+
+
+==============
+WINCONDITIONS
+==============
+
+All TargetCarbon on Carbon
+All TargetOxygen on Oxygen
+All TargetNitrogen on Nitrogen
+No Acid
+
+=======
+LEVELS
+=======
+message Off to work I go. Another lovely day in the brain! Wait, what's this?
+message Brain has left a perfectly good atom lying around. I should put this back where it belongs.  
+
+!!!!!!!!!!!!!!!!!!!!!!
+!!!!######!!######!!!!
+!!!#.....#!!#.....#!!!
+!!#.......##.......#!!
+!#.................##!
+!#..................#!
+!#.............C....#!
+!#.........@........#!
+!#.......P..........#!
+!#..................#!
+!#..................#!
+!#..................#!
+!#..................#!
+!!#................#!!
+!!!#####.....######!!!
+!!!!!!!!#####!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!
+
+message There, a job well done. But what's this? Looks like brain has left the atom-makers in overdrive. I think I can stop them by putting an atom in place, but it's blocked off!
+message Hint: Black and red make acid - but remember not to leave any lying around when you're done. Acid is bad for your brain. 
+
+!!!!!!!!!!!!!!!!!!!!!!
+!!!!######!!######!!!!
+!!!#.....#!!#.....#!!!
+!!#.......##.......#!!
+!#..S...........S..##!
+!#..................#!
+!#......C.$$$..O....#!
+!#........$@$.......#!
+!#.......P$$$.......#!
+!#..................#!
+!#..................#!
+!#..................#!
+!#...T..........T...#!
+!!#................#!!
+!!!#####.....######!!!
+!!!!!!!!#####!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!
+
+message Great, that did it! But there's still atoms lying around and now their spot is surrounded by acid. This won't do!
+message Hint: Red and blue make a base. The base will always follow you around, because.. well.. 
+message All your base are belong to us. 
+Message Sorry.
+
+!!!!!!!!!!!!!!!!!!!!!!
+!!!!######!!######!!!!
+!!!#.....#!!#.....#!!!
+!!#.......##.......#!!
+!#.............T...##!
+!#....N.............#!
+!#........'''..O....#!
+!#........'@'.......#!
+!#.......P'''.......#!
+!#..................#!
+!#..................#!
+!#...S.........Y....#!
+!#..................#!
+!!#................#!!
+!!!#####.....######!!!
+!!!!!!!!#####!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!
+
+message What a mess. Is brain having a stroke or something? Better get to work fixing this. 
+
+!!!!!!!!!!!!!!!!!!!!!!
+!!!!######!!######!!!!
+!!!#$....#!!#.....#!!!
+!!#$......##.......#!!
+!#.....$$......$...##!
+!#...$......¤...S...#!
+!#......''$$$.......#!
+!#.....B&.@$@$......#!
+!#...$..B@'@$¤..$...#!
+!#..$....$B$........#!
+!#..Y..P..$....$$...#!
+!#.........$...T....#!
+!#$...$.............#!
+!!#$$..............#!!
+!!!#####.....######!!!
+!!!!!!!!#####!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!
+
+message It's GABA! Well all this mess makes more sense now. Hopefully things go back to normal now. 
+message Thanks for playing!
+
